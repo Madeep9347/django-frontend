@@ -45,7 +45,7 @@ jobs:
         ECR_URI=$AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
 
         ssh -o StrictHostKeyChecking=no -i jump.pem ubuntu@${{ secrets.JUMP_HOST }} << EOF
-          ssh -o StrictHostKeyChecking=no -i private.pem ubuntu@${{ secrets.PRIVATE_HOST }} << INNER_EOF
+          ssh -o StrictHostKeyChecking=no -i /home/ubuntu/django-keypair.pem ubuntu@${{ secrets.PRIVATE_HOST }} << INNER_EOF
             echo "Logging into ECR..."
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin $ECR_URI
 
@@ -60,3 +60,4 @@ jobs:
             docker run -d --name django-container -p 8000:8000 $ECR_URI:latest
           INNER_EOF
         EOF
+
