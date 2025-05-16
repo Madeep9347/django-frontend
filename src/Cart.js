@@ -35,11 +35,17 @@ function Cart() {
     navigate("/payment");
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className="cart-container">
       <nav className="cart-nav">
         <a href="/dashboard">🏠 Dashboard</a>
         <a href="/cart" className="active">🛒 Cart</a>
+        <button className="logout-button" onClick={handleLogout}>🚪 Logout</button>
       </nav>
 
       <h1>🛍️ Your Cart</h1>
