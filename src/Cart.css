@@ -83,3 +83,17 @@ h1 {
 .payment-button:hover {
   background-color: #218838;
 }
+
+.logout-button {
+  margin-left: auto;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}
