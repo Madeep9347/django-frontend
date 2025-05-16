@@ -19,7 +19,6 @@ function Payment() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // ⚠️ Use the token key "token" as saved in localStorage by Login.js
   const token = localStorage.getItem("token");
 
   const handleChange = (e) => {
@@ -42,7 +41,16 @@ function Payment() {
           'Content-Type': 'application/json'
         }
       });
+
+      // Log out user after successful order
+      localStorage.removeItem("token");
       setSubmitted(true);
+
+      // Redirect after a short delay (optional)
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000); // 3 seconds delay before redirect
+
     } catch (err) {
       console.error("Error submitting payment:", err);
       setError("Something went wrong. Please try again.");
@@ -50,7 +58,12 @@ function Payment() {
   };
 
   if (submitted) {
-    return <div className="payment-success">✅ Payment processed. We will deliver your order soon!</div>;
+    return (
+      <div className="payment-success">
+        ✅ Payment processed. You have been logged out. <br />
+        Redirecting to login page...
+      </div>
+    );
   }
 
   return (
