@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Cart.css"; // Add this for styling
+import "./Cart.css";
 
 const API_BASE = process.env.REACT_APP_API_BASE;
 
 function Cart() {
   const [cart, setCart] = useState([]);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) {
@@ -29,6 +31,10 @@ function Cart() {
       .catch((error) => console.error("Error removing item:", error));
   };
 
+  const handlePayment = () => {
+    navigate("/payment");
+  };
+
   return (
     <div className="cart-container">
       <nav className="cart-nav">
@@ -41,14 +47,21 @@ function Cart() {
       {cart.length === 0 ? (
         <p className="empty-cart">Your cart is empty 🛒</p>
       ) : (
-        <ul className="cart-list">
-          {cart.map((item) => (
-            <li key={item.id} className="cart-item">
-              <span>🍏 {item.item.name} - <strong>{item.quantity}</strong></span>
-              <button className="remove-button" onClick={() => removeFromCart(item.id)}>❌ Remove</button>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="cart-list">
+            {cart.map((item) => (
+              <li key={item.id} className="cart-item">
+                <span>🍏 {item.item.name} - <strong>{item.quantity}</strong></span>
+                <button className="remove-button" onClick={() => removeFromCart(item.id)}>❌ Remove</button>
+              </li>
+            ))}
+          </ul>
+          <div className="payment-button-container">
+            <button className="payment-button" onClick={handlePayment}>
+              💳 Make Payment
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
